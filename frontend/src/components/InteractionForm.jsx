@@ -7,7 +7,6 @@ export default function InteractionForm() {
   const { formData, setFormData } = useForm();
   const [loading, setLoading] = useState(false);
 
-
   useEffect(() => {
     const now = new Date();
     const currentDate = now.toISOString().split("T")[0];
@@ -60,16 +59,16 @@ export default function InteractionForm() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-6 text-white">
+    <div className="max-w-2xl mx-auto bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl">
+      {/* Dark Header */}
+      <div className="bg-zinc-900 px-8 py-6 border-b border-zinc-800">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-white/20 rounded-2xl flex items-center justify-center">
-            📝
+          <div className="w-10 h-10 bg-zinc-800 rounded-2xl flex items-center justify-center">
+            <span className="text-2xl">📝</span>
           </div>
           <div>
-            <h2 className="text-2xl font-semibold">Log HCP Interaction</h2>
-            <p className="text-blue-100 text-sm mt-1">
+            <h2 className="text-2xl font-semibold text-white">Log HCP Interaction</h2>
+            <p className="text-zinc-500 text-sm mt-1">
               Record your meeting details with Healthcare Professionals
             </p>
           </div>
@@ -79,14 +78,14 @@ export default function InteractionForm() {
       <div className="p-8 space-y-8">
         {/* HCP Name */}
         <div>
-          <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+          <label className="flex items-center gap-2 text-sm font-medium text-zinc-400 mb-2">
             <User className="w-4 h-4" />
             Healthcare Professional (HCP)
           </label>
           <input
             type="text"
-            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-gray-400"
-            placeholder="Dr. John Doe / Search HCP..."
+            className="w-full px-5 py-4 bg-zinc-900 border border-zinc-700 rounded-2xl focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 text-white placeholder-zinc-500 transition-all"
+            placeholder="Dr. Sharma / Dr. Priya Singh..."
             value={formData.hcp_name || ""}
             onChange={(e) => setFormData({ ...formData, hcp_name: e.target.value })}
           />
@@ -95,26 +94,26 @@ export default function InteractionForm() {
         {/* Date & Time */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+            <label className="flex items-center gap-2 text-sm font-medium text-zinc-400 mb-2">
               <Calendar className="w-4 h-4" />
               Date
             </label>
             <input
               type="date"
-              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-5 py-4 bg-zinc-900 border border-zinc-700 rounded-2xl focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 text-white"
               value={formData.date || ""}
               onChange={(e) => setFormData({ ...formData, date: e.target.value })}
             />
           </div>
 
           <div>
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+            <label className="flex items-center gap-2 text-sm font-medium text-zinc-400 mb-2">
               <Clock className="w-4 h-4" />
               Time
             </label>
             <input
               type="time"
-              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-5 py-4 bg-zinc-900 border border-zinc-700 rounded-2xl focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 text-white"
               value={formData.time || ""}
               onChange={(e) => setFormData({ ...formData, time: e.target.value })}
             />
@@ -123,12 +122,12 @@ export default function InteractionForm() {
 
         {/* Topics Discussed */}
         <div>
-          <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+          <label className="flex items-center gap-2 text-sm font-medium text-zinc-400 mb-2">
             <MessageSquare className="w-4 h-4" />
-            Topics Discussed
+            Topics Discussed / Notes
           </label>
           <textarea
-            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-3xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 min-h-[120px] resize-y"
+            className="w-full px-5 py-4 bg-zinc-900 border border-zinc-700 rounded-3xl focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 text-white placeholder-zinc-500 min-h-[130px] resize-y"
             placeholder="What was discussed during the interaction..."
             value={formData.notes || ""}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
@@ -138,12 +137,12 @@ export default function InteractionForm() {
         {/* Product & Disease Area */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+            <label className="flex items-center gap-2 text-sm font-medium text-zinc-400 mb-2">
               <Pill className="w-4 h-4" />
               Product
             </label>
             <input
-              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-5 py-4 bg-zinc-900 border border-zinc-700 rounded-2xl focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 text-white placeholder-zinc-500"
               placeholder="e.g. CardioGuard, NeuroRelief"
               value={formData.product || ""}
               onChange={(e) => setFormData({ ...formData, product: e.target.value })}
@@ -151,12 +150,12 @@ export default function InteractionForm() {
           </div>
 
           <div>
-            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+            <label className="flex items-center gap-2 text-sm font-medium text-zinc-400 mb-2">
               <Activity className="w-4 h-4" />
               Disease Area
             </label>
             <input
-              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="w-full px-5 py-4 bg-zinc-900 border border-zinc-700 rounded-2xl focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 text-white placeholder-zinc-500"
               placeholder="e.g. Cardiology, Oncology, Diabetes"
               value={formData.disease_area || ""}
               onChange={(e) => setFormData({ ...formData, disease_area: e.target.value })}
@@ -166,28 +165,28 @@ export default function InteractionForm() {
 
         {/* Sentiment */}
         <div>
-          <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+          <label className="flex items-center gap-2 text-sm font-medium text-zinc-400 mb-3">
             <Smile className="w-4 h-4" />
             Sentiment
           </label>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-3 gap-4">
             {[
-              { value: "positive", label: "Positive", emoji: "😊", color: "bg-green-100 text-green-700 border-green-200" },
-              { value: "neutral", label: "Neutral", emoji: "😐", color: "bg-gray-100 text-gray-700 border-gray-200" },
-              { value: "negative", label: "Negative", emoji: "😟", color: "bg-red-100 text-red-700 border-red-200" },
+              { value: "positive", label: "Positive", emoji: "😊", color: "border-emerald-500/30 hover:border-emerald-500" },
+              { value: "neutral", label: "Neutral", emoji: "😐", color: "border-zinc-600 hover:border-zinc-500" },
+              { value: "negative", label: "Negative", emoji: "😟", color: "border-red-500/30 hover:border-red-500" },
             ].map((option) => (
               <button
                 key={option.value}
                 type="button"
                 onClick={() => setFormData({ ...formData, sentiment: option.value })}
-                className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-2 hover:scale-105 ${
+                className={`p-5 rounded-2xl border-2 transition-all flex flex-col items-center gap-3 hover:scale-[1.03] bg-zinc-900 ${
                   formData.sentiment === option.value 
-                    ? "border-blue-500 bg-blue-50 shadow-sm" 
+                    ? "border-violet-500 bg-zinc-800 shadow-md" 
                     : option.color
                 }`}
               >
-                <span className="text-2xl">{option.emoji}</span>
-                <span className="font-medium text-sm">{option.label}</span>
+                <span className="text-3xl">{option.emoji}</span>
+                <span className="font-medium text-zinc-200">{option.label}</span>
               </button>
             ))}
           </div>
@@ -197,7 +196,7 @@ export default function InteractionForm() {
         <button
           onClick={handleSubmit}
           disabled={loading || !formData.hcp_name}
-          className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-400 text-white font-semibold py-4 rounded-2xl transition-all flex items-center justify-center gap-3 text-lg shadow-lg shadow-blue-500/30 disabled:shadow-none mt-6"
+          className="w-full bg-violet-600 hover:bg-violet-500 disabled:bg-zinc-700 disabled:text-zinc-400 text-white font-semibold py-4 rounded-2xl transition-all flex items-center justify-center gap-3 text-lg mt-6 active:scale-[0.985]"
         >
           {loading ? (
             <>Saving Interaction...</>
@@ -209,8 +208,8 @@ export default function InteractionForm() {
         </button>
 
         {!formData.hcp_name && (
-          <p className="text-center text-xs text-gray-400">
-            HCP Name is required to save
+          <p className="text-center text-xs text-zinc-500">
+            HCP Name is required to save the interaction
           </p>
         )}
       </div>
