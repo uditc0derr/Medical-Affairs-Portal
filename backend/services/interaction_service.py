@@ -15,9 +15,6 @@ def save_interaction(db, hcp_id, ai_data):
         follow_up=ai_data.get("follow_up"),
     )
 
-
-    interaction.hcp_name = ai_data.get("hcp_name", "")
-
     db.add(interaction)
     db.commit()
     db.refresh(interaction)
@@ -70,22 +67,6 @@ def create_interaction_agent(db, hcp_id, text):
         hcp_name = hcp_name.strip().title()  
         hcp = get_or_create_hcp(db, hcp_name)
         hcp_id = hcp.id   
-
-
-    return save_interaction(db, hcp_id, ai_data)
-    ai_data = run_agent(text, hcp_id, db)
-
-    print("AI DATA:", ai_data)  # 🔍 debug
-
-
-    if isinstance(ai_data, dict) and ai_data.get("type") in [
-        "edit",
-        "search",
-        "recommendation",
-        "summary",
-        "compliance"
-    ]:
-        return ai_data
 
 
     return save_interaction(db, hcp_id, ai_data)

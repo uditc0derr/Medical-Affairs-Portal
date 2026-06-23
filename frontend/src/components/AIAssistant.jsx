@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Send, Bot, User } from "lucide-react";
 import { sendMessage } from "../services/api";
-import { useForm } from "../context/FormContext";
+import { useForm } from "../context/useForm";
 import ChatMessage from "./ChatMessage";
 
 export default function AIAssistant() {

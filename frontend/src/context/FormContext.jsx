@@ -1,16 +1,9 @@
-import { createContext, useContext, useState } from "react";
-
-const FormContext = createContext();
+import { useState } from "react";
+import { initialFormData } from "./formDefaults";
+import { FormContext } from "./formContextValue";
 
 export const FormProvider = ({ children }) => {
-  const [formData, setFormData] = useState({
-  notes: "",
-  product: "",
-  disease_area: "",
-  sentiment: "neutral",
-  date: "",
-  time: ""
-});
+  const [formData, setFormData] = useState(initialFormData);
 
   return (
     <FormContext.Provider value={{ formData, setFormData }}>
@@ -18,5 +11,3 @@ export const FormProvider = ({ children }) => {
     </FormContext.Provider>
   );
 };
-
-export const useForm = () => useContext(FormContext);

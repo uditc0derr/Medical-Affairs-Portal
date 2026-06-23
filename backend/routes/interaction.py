@@ -3,9 +3,13 @@ from sqlalchemy.orm import Session
 from db.dependency import get_db
 from pydantic import BaseModel
 from models.interaction import Interaction
+from models.hcp import HCP
+
+
 class ManualInteraction(BaseModel):
     hcp_id: int
-    notes: str
+    hcp_name: str = ""
+    notes: str = ""
     sentiment: str
     product: str = ""
     disease_area: str = ""
@@ -17,8 +21,28 @@ from services.interaction_service import (
     create_interaction_ai,
     create_interaction_agent
 )
+from services.hcp_service import get_or_create_hcp
 
 router = APIRouter(prefix="/interaction", tags=["Interaction"])
+
+
+def serialize_interaction(db: Session, interaction: Interaction):
+    hcp = db.query(HCP).filter(HCP.id == interaction.hcp_id).first()
+
+    return {
+        "type": "log",
+        "id": interaction.id,
+        "hcp_id": interaction.hcp_id,
+        "hcp_name": hcp.name if hcp else "",
+        "notes": interaction.notes or "",
+        "sentiment": interaction.sentiment or "neutral",
+        "product": interaction.product or "",
+        "disease_area": interaction.disease_area or "",
+        "date": interaction.date or "",
+        "time": interaction.time or "",
+        "concerns": interaction.concerns or "[]",
+        "follow_up": interaction.follow_up or "",
+    }
 
 
 @router.post("/test")
@@ -59,26 +83,18 @@ def agent_log(text: str, hcp_id: int, db: Session = Depends(get_db)):
 
     if isinstance(result, dict):
         return result
-
-
-    return {
-        "type": "log",
-        "id": result.id,
-        "notes": result.notes or "",
-        "sentiment": result.sentiment or "neutral",
-        "product": result.product or "",
-        "disease_area": result.disease_area or "",
-        "concerns": result.concerns or "[]",
-        "follow_up": result.follow_up or "",
-       "hcp_name": getattr(result, "hcp_name", "") 
-    }
+    return serialize_interaction(db, result)
 
 @router.post("/manual-log")
 def manual_log(data: ManualInteraction, db: Session = Depends(get_db)):
+    hcp_id = data.hcp_id
 
+    if data.hcp_name.strip():
+        hcp = get_or_create_hcp(db, data.hcp_name.strip().title())
+        hcp_id = hcp.id
 
     interaction = Interaction(
-        hcp_id=data.hcp_id,
+        hcp_id=hcp_id,
         notes=data.notes,
         sentiment=data.sentiment,
         product=data.product,
@@ -93,9 +109,4 @@ def manual_log(data: ManualInteraction, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(interaction)
 
-    return {
-        "type": "log",
-        "id": interaction.id,
-        "notes": interaction.notes,
-        "sentiment": interaction.sentiment
-    }
+    return serialize_interaction(db, interaction)

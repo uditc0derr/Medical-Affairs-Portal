@@ -1,4 +1,5 @@
-import { useForm } from "../context/FormContext";
+import { initialFormData } from "../context/formDefaults";
+import { useForm } from "../context/useForm";
 import { saveInteraction } from "../services/api";
 import { useState, useEffect } from "react";
 import { Calendar, Clock, User, MessageSquare, Pill, Activity, Smile } from "lucide-react";
@@ -6,6 +7,10 @@ import { Calendar, Clock, User, MessageSquare, Pill, Activity, Smile } from "luc
 export default function InteractionForm() {
   const { formData, setFormData } = useForm();
   const [loading, setLoading] = useState(false);
+
+  const updateField = (field, value) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   useEffect(() => {
     const now = new Date();
@@ -39,16 +44,7 @@ export default function InteractionForm() {
       alert("✅ Interaction saved successfully!");
 
       // Reset form
-      setFormData({
-        hcp_id: null,
-        hcp_name: "",
-        date: "",
-        time: "",
-        notes: "",
-        product: "",
-        disease_area: "",
-        sentiment: "neutral",
-      });
+      setFormData(initialFormData);
 
     } catch (error) {
       console.error(error);
@@ -87,7 +83,7 @@ export default function InteractionForm() {
             className="w-full px-5 py-4 bg-zinc-900 border border-zinc-700 rounded-2xl focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 text-white placeholder-zinc-500 transition-all"
             placeholder="Dr. Sharma / Dr. Priya Singh..."
             value={formData.hcp_name || ""}
-            onChange={(e) => setFormData({ ...formData, hcp_name: e.target.value })}
+            onChange={(e) => updateField("hcp_name", e.target.value)}
           />
         </div>
 
@@ -102,7 +98,7 @@ export default function InteractionForm() {
               type="date"
               className="w-full px-5 py-4 bg-zinc-900 border border-zinc-700 rounded-2xl focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 text-white"
               value={formData.date || ""}
-              onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+              onChange={(e) => updateField("date", e.target.value)}
             />
           </div>
 
@@ -115,7 +111,7 @@ export default function InteractionForm() {
               type="time"
               className="w-full px-5 py-4 bg-zinc-900 border border-zinc-700 rounded-2xl focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 text-white"
               value={formData.time || ""}
-              onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+              onChange={(e) => updateField("time", e.target.value)}
             />
           </div>
         </div>
@@ -130,7 +126,7 @@ export default function InteractionForm() {
             className="w-full px-5 py-4 bg-zinc-900 border border-zinc-700 rounded-3xl focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 text-white placeholder-zinc-500 min-h-[130px] resize-y"
             placeholder="What was discussed during the interaction..."
             value={formData.notes || ""}
-            onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+            onChange={(e) => updateField("notes", e.target.value)}
           />
         </div>
 
@@ -145,7 +141,7 @@ export default function InteractionForm() {
               className="w-full px-5 py-4 bg-zinc-900 border border-zinc-700 rounded-2xl focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 text-white placeholder-zinc-500"
               placeholder="e.g. CardioGuard, NeuroRelief"
               value={formData.product || ""}
-              onChange={(e) => setFormData({ ...formData, product: e.target.value })}
+              onChange={(e) => updateField("product", e.target.value)}
             />
           </div>
 
@@ -158,7 +154,7 @@ export default function InteractionForm() {
               className="w-full px-5 py-4 bg-zinc-900 border border-zinc-700 rounded-2xl focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/30 text-white placeholder-zinc-500"
               placeholder="e.g. Cardiology, Oncology, Diabetes"
               value={formData.disease_area || ""}
-              onChange={(e) => setFormData({ ...formData, disease_area: e.target.value })}
+              onChange={(e) => updateField("disease_area", e.target.value)}
             />
           </div>
         </div>
@@ -178,7 +174,7 @@ export default function InteractionForm() {
               <button
                 key={option.value}
                 type="button"
-                onClick={() => setFormData({ ...formData, sentiment: option.value })}
+                onClick={() => updateField("sentiment", option.value)}
                 className={`p-5 rounded-2xl border-2 transition-all flex flex-col items-center gap-3 hover:scale-[1.03] bg-zinc-900 ${
                   formData.sentiment === option.value 
                     ? "border-violet-500 bg-zinc-800 shadow-md" 
